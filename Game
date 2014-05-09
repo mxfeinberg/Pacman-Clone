@@ -3,7 +3,8 @@ import java.awt.Canvas;
 public class Game extends Canvas implements Runnable{
 	private boolean running = false;
 	private Thread thread;
-	
+	private PacMan pacman;
+	private BufferedImage image = new BufferedImage(WIDTH,HEIGHT,BufferedImage(WIDTH,HEIGHT,BufferdImage.TYPE_INT_RGB);
 	public void run(){
 		long lastTime = System.nanoTime();
 		final double ticks = 60;
@@ -39,15 +40,19 @@ public class Game extends Canvas implements Runnable{
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_LEFT)
 		{
+			pacman.setX(getX() - 1);
 		}
 		else if(key == KeyEvent.VK_RIGHT)
 		{
+			pacman.setX(getX() + 1);
 		}
 		else if(key == KeyEvent.VK_DOWN)
 		{
+			pacman.setY(getY() + 1);
 		}
 		else if(key == KeyEvent.VK_UP)
 		{
+			pacman.setY(getY() - 1);
 		}
 	}
 	public void keyReleased(KeyEvent e)
