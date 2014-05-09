@@ -34,6 +34,25 @@ public class Game extends Canvas implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 	}
+	public void keyPressed(KeyEvent e)
+	{
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_LEFT)
+		{
+		}
+		else if(key == KeyEvent.VK_RIGHT)
+		{
+		}
+		else if(key == KeyEvent.VK_DOWN)
+		{
+		}
+		else if(key == KeyEvent.VK_UP)
+		{
+		}
+	}
+	public void keyReleased(KeyEvent e)
+	{
+	}
 	public static void main(String[] args){
 		Game g = new Game();
 		g.start();
