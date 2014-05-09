@@ -9,7 +9,6 @@ public class Game extends Canvas implements Runnable{
 		final double ticks = 60;
 		double nanoseconds = 1000000000 / ticks;
 		double delta = 0;
-		int fps = 0;
 		
 		while(running){
 			long now = System.nanoTime();
@@ -20,7 +19,6 @@ public class Game extends Canvas implements Runnable{
 				delta--;
 			}
 			render();
-			fps++;
 				
 			}
 		}
@@ -36,7 +34,7 @@ public class Game extends Canvas implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 	}
-	public static void main(String[ ]args){
+	public static void main(String[] args){
 		Game g = new Game();
 		g.start();
 	}
