@@ -1,0 +1,9 @@
+public class SpriteSheet
+{
+  private BufferedImage spriteSheet;
+  
+  public SpriteSheet(BufferedImage i)
+  {
+    spriteSheet = i;
+  }
+}
