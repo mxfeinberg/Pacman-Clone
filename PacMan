@@ -16,6 +16,7 @@ public class PacMan
   }
   public void render(Graphics g)
   {
+    g.drawImage(img,(int)x,(int)y,null);
   }
   public double getX()
   {
