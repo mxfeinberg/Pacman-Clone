@@ -1,0 +1,36 @@
+public class PacMan
+{
+  private double x;
+  private double y;
+  private BufferedImage img;
+  private score;
+  
+  public PacMan(double x, double y)
+  {
+    this.x = x;
+    this.y = y;
+    score = 0;
+  }
+  public void tick()
+  {
+  }
+  public void render(Graphics g)
+  {
+  }
+  public double getX()
+  {
+    return x;
+  }
+  public double getY()
+  {
+    return y;
+  }
+  public void setX(double x)
+  {
+    this.x = x;
+  }
+  public void setY(double y)
+  {
+    this.y = y;
+  }
+}
