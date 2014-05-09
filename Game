@@ -1,0 +1,43 @@
+package PacMan;
+import java.awt.Canvas;
+public class Game extends Canvas implements Runnable{
+	private boolean running = false;
+	private Thread thread;
+	
+	public void run(){
+		long lastTime = System.nanoTime();
+		final double ticks = 60;
+		double nanoseconds = 1000000000 / ticks;
+		double delta = 0;
+		int fps = 0;
+		
+		while(running){
+			long now = System.nanoTime();
+			delta += (lastTime - now) / nanoseconds;
+			lastTime = now;
+			if(delta > 1){
+				tick();
+				delta--;
+			}
+			render();
+			fps++;
+				
+			}
+		}
+	}
+	public void tick(){
+		
+	}
+	public void render(){
+		
+	}
+	public void start(){
+		running = true;
+		thread = new Thread(this);
+		thread.start();
+	}
+	public static void main(String[ ]args){
+		Game g = new Game();
+		g.start();
+	}
+}
