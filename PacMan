@@ -1,36 +1,56 @@
+import java.awt.image.BufferedImage;
+import java.awt.*;
 public class PacMan
 {
-  private double x;
-  private double y;
+  private int x;
+  private int y;
+  private int direction;
+  private Game game;
   private BufferedImage img;
-  private score;
+  private int score;
   
-  public PacMan(double x, double y)
+  public PacMan(int x, int y, Game game)
   {
     this.x = x;
     this.y = y;
+    direction = 270;
     score = 0;
+    SpriteSheet ss = new SpriteSheet(game.getSpriteSheet());
+    img = ss.grabImage(27,75,22,22);
   }
   public void tick()
   {
   }
   public void render(Graphics g)
   {
-    g.drawImage(img,(int)x,(int)y,null);
+    g.drawImage(img,x,y,null);
   }
-  public double getX()
+  public void setDirection(int d)
+  {
+      direction = d;
+      SpriteSheet ss = new SpriteSheet(game.getSpriteSheet());
+      if(d == 0)
+        img = ss.grabImage(48,75,22,22);
+      else if(d == 90)
+        img = ss.grabImage(27,75,22,22);
+      else if(d == 180)
+        img = ss.grabImage(75,74,22,22);
+      else if(d == 270)
+        img = ss.grabImage(25,74,22,22);
+  }
+  public int getX()
   {
     return x;
   }
-  public double getY()
+  public int getY()
   {
     return y;
   }
-  public void setX(double x)
+  public void setX(int x)
   {
     this.x = x;
   }
-  public void setY(double y)
+  public void setY(int y)
   {
     this.y = y;
   }
