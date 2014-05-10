@@ -1,77 +1,123 @@
-package PacMan;
 import java.awt.Canvas;
+import javax.swing.JFrame;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.IOException;
+import java.awt.*;
 public class Game extends Canvas implements Runnable{
-	private boolean running = false;
-	private Thread thread;
-	public static final int WIDTH = 1024;
-	public static final int HEIGHT = 720;
-	public final String TITLE = "Pacman";
-	private PacMan pacman;
-	
-	public void run(){
-		long lastTime = System.nanoTime();
-		final double ticks = 60;
-		double nanoseconds = 1000000000 / ticks;
-		double delta = 0;
-		int fps = 0;
-		
-		while(running){
-			long now = System.nanoTime();
-			delta += (lastTime - now) / nanoseconds;
-			lastTime = now;
-			if(delta > 1){
-				tick();
-				delta--;
-			}
-			render();
-			fps++;
-				
-			}
-		}
-	}
-	public void keyPressed(KeyEvent e)
-	{
-		int key = KeyEvent.getKeyCode();
-		if(key == KeyEvent.VK_DOWN)
-		{
-			pacman.setY(getY() + 1);
-		}
-		else if(key == KeyEvent.VK_UP)
-		{
-			pacman.setY(getY() - 1);
-		}
-		else if(key == KeyEvent.VK_LEFT)
-		{
-			pacman.setX(getX() - 1);
-		}
-		else if(key == KeyEvent.VK_RIGHT)
-		{
-			pacman.setX(getX() + 1);
-		}
-	}
-	public void tick(){
-		
-	}
-	public void render(){
-		
-	}
-	public void start(){
-		running = true;
-		thread = new Thread(this);
-		thread.start();
-	}
-	public static void main(String[ ]args){
-		Game g = new Game();
-		g.setPreferredSize(new Dimesion(WIDTH, HEIGHT));
-		g.setMaximumSize(new Dimension(WIDTH, HEIGHT));
-		g.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		JFrame frame = new JFrame(g.TITLE);
-		frame.add(game);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizeable(false);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		g.start();
-	}
+    private boolean running = false;
+    private Thread thread;
+    public static final int WIDTH = 266;
+    public static final int HEIGHT = 368;
+    public static final int NORTH = 0;
+    public static final int SOUTH = 180;
+    public static final int EAST = 90;
+    public static final int WEST = 270;
+    public final String TITLE = "Pacman";
+    private PacMan pacman;
+    private BufferedImage spriteSheet;
+    private BufferedImage image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
+    
+    public void init()
+    {
+        BufferedImageLoader loader = new BufferedImageLoader();
+        try
+        {
+            spriteSheet = loader.loadImage("/PacmanSpriteSheet.png");
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        SpriteSheet ss = new SpriteSheet(spriteSheet);
+        addKeyListener(new KeyInput(this));
+        pacman = new PacMan(0,0,this);
+       }
+    public void run()
+    {
+        init();
+        long lastTime = System.nanoTime();
+        final double ticks = 60;
+        double nanoseconds = 1000000000 / ticks;
+        double delta = 0;
+        int fps = 0;
+        
+        while(running)
+        {
+            long now = System.nanoTime();
+            delta += (lastTime - now) / nanoseconds;
+            lastTime = now;
+            if(delta > 1){
+                tick();
+                delta--;
+            }
+            render();
+            fps++;
+        }
+    }
+    public void keyPressed(KeyEvent e)
+    {
+        int key = e.getKeyCode();
+        if(key == KeyEvent.VK_DOWN)
+        {
+            pacman.setDirection(SOUTH);
+        }
+        else if(key == KeyEvent.VK_UP)
+        {
+            pacman.setDirection(NORTH);
+        }
+        else if(key == KeyEvent.VK_LEFT)
+        {
+            pacman.setDirection(WEST);
+        }
+        else if(key == KeyEvent.VK_RIGHT)
+        {
+            pacman.setX(EAST);
+        }
+    }
+    public void keyReleased(KeyEvent e)
+    {
+        
+    }
+    public void tick(){
+        pacman.tick();
+    }
+    public void render(){
+        BufferStrategy bs = this.getBufferStrategy();
+        if(bs == null)
+        {
+            createBufferStrategy(3);
+            return;
+        }
+        Graphics g = bs.getDrawGraphics();
+        //DRAW THINGS HERE
+        g.drawImage(image,0,0,getHeight(),getWidth(),this);
+        pacman.render(g);
+        
+        g.dispose();
+        bs.show();
+    }
+    public void start(){
+        running = true;
+        thread = new Thread(this);
+        thread.start();
+    }
+    public static void main(String[ ]args){
+        Game g = new Game();
+        g.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        g.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+        g.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        JFrame frame = new JFrame(g.TITLE);
+        frame.add(g);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        g.start();
+    }
+    public BufferedImage getSpriteSheet()
+    {
+        return spriteSheet;
+    }
 }
